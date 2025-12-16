@@ -1,9 +1,11 @@
-package Model;
+package com.demo.app.Model;
 // @OneToMany, @ManyToMany, @JoinTable, @ManyToOne,
 import jakarta.persistence.*;
 
+
 @Entity
-public class Empleado {
+@Table
+public class Empleados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_empleado;
@@ -20,10 +22,10 @@ public class Empleado {
     @Column
     private int salario_hora;
 
-    public Empleado() {
+    public Empleados() {
     }
 
-    public Empleado(int id_empleado, String nombre, String email, int telefono, String tipo_jornada, String puesto, int salario_hora) {
+    public Empleados(int id_empleado, String nombre, String email, int telefono, String tipo_jornada, String puesto, int salario_hora) {
         this.id_empleado = id_empleado;
         this.nombre = nombre;
         this.email = email;
