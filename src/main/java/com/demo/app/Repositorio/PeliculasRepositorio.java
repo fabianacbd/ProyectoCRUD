@@ -1,9 +1,6 @@
 package com.demo.app.Repositorio;
 
-import com.demo.app.Model.Empleados;
 import com.demo.app.Model.Peliculas;
-import org.springframework.context.annotation.Configuration;
-import com.demo.app.Repositorio.PeliculasRepositorio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

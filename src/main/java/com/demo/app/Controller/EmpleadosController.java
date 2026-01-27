@@ -11,64 +11,45 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/empleados")
 public class EmpleadosController {
-    private final EmpleadoRepositorio empleadoRepositorio;
 
-    public EmpleadosController(EmpleadoRepositorio repo) {
-        this.empleadoRepositorio = repo;
+    @Autowired
+    private final EmpleadoService service;
+
+    public EmpleadosController(EmpleadoService service) {
+        this.service = service;
     }
 
+    // Crear
     @PostMapping
-    public Empleados insertarMongo(@RequestBody Empleados empleado) {
-        return empleadoRepositorio.save(empleado);
+    public Empleados crearEmpleado(@RequestBody Empleados empleados){
+        return service.crearEmpleado(empleados);
     }
+
 
     @GetMapping
-    public List<Empleados> listarMongo() {
-        return empleadoRepositorio.findAll();
+    public List<Empleados> getAll(){
+        return service.getAll();
     }
 
 
-}
 
-// CODIGO ANTERIOR
-//    @Autowired
-//    private final EmpleadoService service;
-//
-//    public EmpleadosController(EmpleadoService service) {
-//        this.service = service;
-//    }
-//
-//    // Crear
-//    @PostMapping
-//    public Empleados crearEmpleado(@RequestBody Empleados empleados){
-//        return service.crearEmpleado(empleados);
-//    }
-//
-//
-//    @GetMapping
-//    public List<Empleados> getAll(){
-//        return service.getAll();
-//    }
-//
-//
-//
-//    @GetMapping("/{id}")
-//    public Empleados getById(@PathVariable("id") int id_empleado){
-//        return service.buscarPorId(id_empleado);
-//    }
-//
-//
-//    // UPDATE
-//    @PutMapping("/{id}")
-//    public Empleados actualizar(@PathVariable("id") int id_empleado, @RequestBody Empleados datos) {
-//        return service.actualizarEmpleado(id_empleado, datos);
-//    }
-//
-//        // DELETE
-//        @DeleteMapping("/{id}")
-//        public void eliminarEmpleado ( @PathVariable("id")  int id_empleado){
-//            service.borrarEmpleado(id_empleado);
-//        }
-//    }
+    @GetMapping("/{id}")
+    public Empleados getById(@PathVariable("id") String id_empleado){
+        return service.buscarPorId(id_empleado);
+    }
+
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public Empleados actualizar(@PathVariable("id") String id_empleado, @RequestBody Empleados datos) {
+        return service.actualizarEmpleado(id_empleado, datos);
+    }
+
+        // DELETE
+        @DeleteMapping("/{id}")
+        public void eliminarEmpleado ( @PathVariable("id")  String id_empleado){
+            service.borrarEmpleado(id_empleado);
+        }
+    }
 
 
