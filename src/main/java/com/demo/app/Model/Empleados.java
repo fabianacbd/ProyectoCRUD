@@ -1,13 +1,12 @@
 package com.demo.app.Model;
 // @OneToMany, @ManyToMany, @JoinTable, @ManyToOne,
 import jakarta.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Entity
-@Table
+@Document(collection = "empleados")
 public class Empleados {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_empleado;
     @Column
     private String nombre;
@@ -91,6 +90,8 @@ public class Empleados {
         this.puesto = puesto;
     }
 
+
+
     @Override
     public String toString() {
         return "Empleado : " +
@@ -102,6 +103,9 @@ public class Empleados {
                 " Tipo de jornada: " + tipo_jornada +
                 " Salario_hora: " + salario_hora;
     }
+
+
+
 }
 
 
