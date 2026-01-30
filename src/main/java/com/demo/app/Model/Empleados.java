@@ -2,12 +2,25 @@ package com.demo.app.Model;
 // @OneToMany, @ManyToMany, @JoinTable, @ManyToOne,
 import jakarta.persistence.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
 
-@Document(collection = "empleados")
+@Data
+@Entity
+@Table(name = "empleados")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Empleados {
     @Id
-    private int id_empleado;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Column
     private String nombre;
     @Column
@@ -21,25 +34,12 @@ public class Empleados {
     @Column
     private int salario_hora;
 
-    public Empleados() {
+    public long getId() {
+        return id;
     }
 
-    public Empleados(int id_empleado, String nombre, String email, int telefono, String tipo_jornada, String puesto, int salario_hora) {
-        this.id_empleado = id_empleado;
-        this.nombre = nombre;
-        this.email = email;
-        this.telefono = telefono;
-        this.tipo_jornada = tipo_jornada;
-        this.puesto = puesto;
-        this.salario_hora = salario_hora;
-    }
-
-    public int getId() {
-        return id_empleado;
-    }
-
-    public void setId(int id) {
-        this.id_empleado = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -66,6 +66,14 @@ public class Empleados {
         this.telefono = telefono;
     }
 
+    public String getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(String puesto) {
+        this.puesto = puesto;
+    }
+
     public String getTipo_jornada() {
         return tipo_jornada;
     }
@@ -82,30 +90,20 @@ public class Empleados {
         this.salario_hora = salario_hora;
     }
 
-    public String getPuesto() {
-        return puesto;
-    }
-
-    public void setPuesto(String puesto) {
-        this.puesto = puesto;
-    }
-
-
-
     @Override
     public String toString() {
-        return "Empleado : " +
-                " ID: " + id_empleado +
-                " Nombre: " + nombre +
-                " Email: " + email +
-                " Telefono: " + telefono +
-                " Cargo: " + puesto +
-                " Tipo de jornada: " + tipo_jornada +
-                " Salario_hora: " + salario_hora;
+        return "Empleados{" +
+                "id_empleado=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono=" + telefono +
+                ", puesto='" + puesto + '\'' +
+                ", tipo_jornada='" + tipo_jornada + '\'' +
+                ", salario_hora=" + salario_hora +
+                '}';
     }
-
-
-
 }
+
+
 
 

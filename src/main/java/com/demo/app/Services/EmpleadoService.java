@@ -1,70 +1,41 @@
 package com.demo.app.Services;
 
 import com.demo.app.Model.Empleados;
+import com.demo.app.Repositorio.EmpleadoMongoRepositorio;
 import com.demo.app.Repositorio.EmpleadoRepositorio;
-import com.demo.app.ConnectionBBDD;
-import com.demo.app.Model.EmpleadosMongo;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class EmpleadoService {
-
+public class EmpleadoService  {
     private final EmpleadoRepositorio empleadoRepositorio;
 
-    public EmpleadoService(EmpleadoRepositorio empleadoRepositorio) {
+    private final EmpleadoMongoRepositorio empleadoMongo;
+
+    public EmpleadoService(EmpleadoRepositorio empleadoRepositorio, EmpleadoMongoRepositorio empleadoMongo) {
         this.empleadoRepositorio = empleadoRepositorio;
+        this.empleadoMongo = empleadoMongo;
     }
 
-    // CREATE (SQL + Mongo)
-    public Empleados crearEmpleado(Empleados empleado) {
-
-        // Guardar en BD relacional
-        Empleados empleadoSQL = empleadoRepositorio.save(empleado);
-
-        //  Guardar en MongoDB
-        MongoCollection<Document> collection =
-                ConnectionBBDD.getEmpleadoCollection();
-
-        collection.insertOne(
-                EmpleadosMongo.toDocument(empleadoSQL)
-        );
-
-        return empleadoSQL;
-    }
-
-    // READ ALL
-    public List<Empleados> getAll() {
+    public List<Empleados> getAllEmpleados() {
         return empleadoRepositorio.findAll();
     }
 
-    // READ BY ID
-    public Empleados buscarPorId(String id_empleado) {
-        return empleadoRepositorio.findById(id_empleado)
-                .orElseThrow(() ->
-                        new RuntimeException("Empleado no encontrado: " + id_empleado));
+    public Optional<Empleados> getEmpleadoById(Long id) {
+        return empleadoRepositorio.findById(id);
     }
 
-    // UPDATE
-    public Empleados actualizarEmpleado(String id_empleado, Empleados datos) {
+    public Empleados saveEmpleados(Empleados empleados) {
 
-        Empleados empleado = buscarPorId(id_empleado);
-
-        empleado.setNombre(datos.getNombre());
-        empleado.setEmail(datos.getEmail());
-        empleado.setTelefono(datos.getTelefono());
-        empleado.setPuesto(datos.getPuesto());
-        empleado.setTipo_jornada(datos.getTipo_jornada());
-        empleado.setSalario_hora(datos.getSalario_hora());
-
-        return empleadoRepositorio.save(empleado);
+        empleadoMongo.insertarSoloMongo(empleados);
+        return empleadoRepositorio.save(empleados);
     }
 
-    // DELETE
-    public void borrarEmpleado(String id_empleado) {
-        empleadoRepositorio.deleteById(id_empleado);
+    public void deleteEmpleado(Long id) {
+        empleadoRepositorio.deleteById(id);
     }
+
 }

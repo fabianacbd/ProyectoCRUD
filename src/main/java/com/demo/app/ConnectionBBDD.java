@@ -1,17 +1,18 @@
 package com.demo.app;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
+import com.mongodb.client.MongoDatabase;
 
 public class ConnectionBBDD {
-     //MONGODB la conexión y la base de datos
-     private static final MongoClient mongoClient =
-             MongoClients.create("mongodb://localhost:27017");
+    private static final String URL_MONGO = "mongodb://localhost:27017";
+    private static final String DB_NAME = "cines";
 
-    public static MongoCollection<Document> getEmpleadoCollection() {
-        return mongoClient
-                .getDatabase("cine")
-                .getCollection("empleados");
+    public static MongoDatabase getConnectionMongo() {
+        try{
+            MongoClient client = MongoClients.create(URL_MONGO);
+            return client.getDatabase(DB_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException("Error conectando a MongoDB", e);
+        }
     }
 }
